@@ -1,0 +1,31 @@
+name: 'Deploy'
+
+env:
+  GLOBAL_VARIABLE: 'ThisIsaGlobalVariable'
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          submodules: recursive
+      
+      - name: "Execute script"
+        run: |
+          set -ex
+          bash ./merge_pr.sh
+        env:
+          STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
