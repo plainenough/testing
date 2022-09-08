@@ -1,4 +1,4 @@
-name: 'PR CI'
+name: 'Merged'
 
 env:
   GLOBAL_VARIABLE: 'ThisIsaGlobalVariable' 
@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 
 jobs:
-  checkPr:
+  prMerged:
     runs-on: ubuntu-latest
 
     steps:
