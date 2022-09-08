@@ -6,6 +6,8 @@ env:
 on:
   workflow_dispatch:
 
+  repository_dispatch:
+    types: [deploy-automated]
 
 jobs:
   deploy:
@@ -26,6 +28,14 @@ jobs:
       - name: "Execute script"
         run: |
           set -ex
-          bash ./merge_pr.sh
+          bash ./deploy.sh
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
+
+      - name: "Execute script"
+        if: ${{ github.event.client_payload }}
+        run: |
+          set -ex
+          bash ./deploy.sh
+        env:
+          STEP_VARIABLE: ${{ github.event.client_payload }}

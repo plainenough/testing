@@ -1,4 +1,4 @@
-name: 'PR CI'
+name: 'Merged'
 
 env:
   GLOBAL_VARIABLE: 'ThisIsaGlobalVariable' 
@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 
 jobs:
-  checkPr:
+  prMerged:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,11 @@ jobs:
           bash ./merge_pr.sh
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
+
+      - name: "Dispatch Deploy"
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repository: plainenough/testing
+          event-type: deploy-automated
+          client-payload: '{ "status": "pending", "update": "false" }'
