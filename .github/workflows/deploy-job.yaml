@@ -47,6 +47,7 @@ jobs:
         with:
           status: ${{ github.event.client_payload.status }}
           run_id: ${{ github.event.client_payload.run_id }}
+          deployment_status_url: ${{ github.event.client_payload.url }}
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
