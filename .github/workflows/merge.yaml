@@ -33,4 +33,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: plainenough/testing
           event-type: deploy-automated
-          client-payload: '{ "status": "pending", "update": "false" }'
+          client-payload: '{ "status": "pending", "run_id": "${{ github.run_id }}"}'
