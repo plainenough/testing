@@ -38,4 +38,4 @@ jobs:
           set -ex
           bash ./deploy.sh
         env:
-          STEP_VARIABLE: ${{ github.event.client_payload }}
+          STEP_VARIABLE: "${{ github.event.client_payload }}"
