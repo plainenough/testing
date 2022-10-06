@@ -27,10 +27,19 @@ jobs:
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
 
-      - name: "Dispatch Deploy"
-        uses: peter-evans/repository-dispatch@v1
+#      - name: "Dispatch Deploy"
+#        uses: peter-evans/repository-dispatch@v1
+#        with:
+#          token: ${{ secrets.PAT }}
+#          repository: plainenough/testing
+#          event-type: deploy-automated
+#          client-payload: '{ "status": "pending", "run_id": "${{ github.run_id }}", "url": "https://api.github.com/repos/plainenough/testing/deployments/${{ github.run_id }}/statuses"}'       
+        
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1   
         with:
-          token: ${{ secrets.PAT }}
-          repository: plainenough/testing
-          event-type: deploy-automated
-          client-payload: '{ "status": "pending", "run_id": "${{ github.run_id }}", "url": "https://api.github.com/repos/plainenough/testing/deployments/${{ github.run_id }}/statuses"}'
+          status: ${{ job.status }}
+          notify_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK }}
