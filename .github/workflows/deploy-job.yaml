@@ -30,6 +30,7 @@ jobs:
           set -ex
           bash ./deploy.sh
           echo "OVEWRITE" >> $GLOBAL_VARIABLE
+          echo $GLOBAL_VARIABLE
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
       - name: "Execute script"
