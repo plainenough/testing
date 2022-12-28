@@ -1,8 +1,5 @@
 name: 'Deploy'
 
-env:
-  GLOBAL_VARIABLE: 'ThisIsaGlobalVariable'
-
 on:
   workflow_dispatch:
 
