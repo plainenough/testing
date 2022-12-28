@@ -5,9 +5,12 @@ on:
 
   repository_dispatch:
     types: [deploy-automated]
-
+  
 jobs:
   deploy:
+    outputs:
+      tagType: ${{ steps.setVar.outputs.tagType }}
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,15 +25,18 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       
-      - name: "Execute script"
+      - name: "Set Variable"
+        id: setVar
         run: |
           set -ex
           bash ./deploy.sh
           export GLOBAL_VARIABLE="OVERWRITE"
-          echo $GLOBAL_VARIABLE
+          echo "::set-output name=tagType::$GLOBAL_VARIABLE"
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
+          
       - name: "Execute script"
         run: |
           set -ex
-          echo $GLOBAL_VARIABLE         
+          echo $GLOBAL_VARIABLE
+          echo ${{ steps.setVar.outputs.tagType }}
