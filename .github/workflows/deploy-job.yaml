@@ -29,40 +29,10 @@ jobs:
         run: |
           set -ex
           bash ./deploy.sh
+          GLOBAL_VARIABLE="OVEWRITE"
         env:
           STEP_VARIABLE: 'ThisIsaStepSpecificVariable'
-
       - name: "Execute script"
-        if: ${{ github.event.client_payload }}
         run: |
           set -ex
-          bash ./deploy.sh
-        env:
-          STEP_VARIABLE: "${{ github.event.client_payload.status }}"
-
-      - id: set_inital_state
-        if: always()
-        name: Set initial deployment status
-        uses: rsotnychenko/deployment-status-update@0.2.0
-        with:
-          status: ${{ github.event.client_payload.status }}
-          run_id: ${{ github.event.client_payload.run_id }}
-          deployment_status_url: ${{ github.event.client_payload.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
-      - name: "Execute sleep"
-        if: ${{ github.event.client_payload }}
-        run: |
-          set -ex
-          sleep(120)
-
-      - id: set_final_state
-        if: always()
-        name: Set initial deployment status
-        uses: rsotnychenko/deployment-status-update@0.2.0
-        with:
-          status: 'success'
-          run_id: ${{ github.event.client_payload.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}      
+          echo $GLOBAL_VARIABLE         
